@@ -1,5 +1,5 @@
 services:
-  postgres:
+  product_postgres:
     image: 'postgres:latest'
     environment:
       - 'POSTGRES_DB=productcataloglab'
@@ -7,3 +7,11 @@ services:
       - 'POSTGRES_USER=productcatalogservice'
     ports:
       - "5432:5432"
+  accommodation_postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=accommodationdb'
+      - 'POSTGRES_PASSWORD=accomodationservice'
+      - 'POSTGRES_USER=accomodationservice'
+    ports:
+      - "5433:5433"

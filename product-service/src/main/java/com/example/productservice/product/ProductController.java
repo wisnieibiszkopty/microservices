@@ -1,6 +1,7 @@
 package com.example.productservice.product;
 
 import com.example.productservice.product.dtos.ProductCategory;
+import com.example.productservice.product.dtos.ProductRequest;
 import com.example.productservice.product.dtos.ProductResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,12 +35,14 @@ public class ProductController {
 
     @GetMapping("/category/{category}")
     public ResponseEntity<List<ProductResponse>> getProductsByCategory(ProductCategory category){
+        log.info("GET /api/v1/products/{} - Szukanie po kategorii", category);
         var products = productService.getProductByCategory(category);
         return ResponseEntity.ok(products);
     }
 
     @GetMapping("/search")
     public ResponseEntity<List<ProductResponse>> searchProducts(@RequestParam String name) {
+        log.info("GET /api/v1/products/{} - Szukanie po nazwie", name);
         return ResponseEntity.ok(productService.searchProducts(name));
     }
 
@@ -47,17 +50,20 @@ public class ProductController {
     public ResponseEntity<List<ProductResponse>> getProductsByPriceRange(
             @RequestParam BigDecimal minPrice,
             @RequestParam BigDecimal maxPrice) {
+        log.info("GET /api/v1/products/{}-{} - Szukanie po cenie", minPrice, maxPrice);
         return ResponseEntity.ok(productService.getProductsByPriceRange(minPrice, maxPrice));
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@Valid @RequestBody Product request) {
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody ProductRequest request) {
+        log.info("POST /api/v1/products - Tworzenie produktu");
         var product = productService.createProduct(request);
         return ResponseEntity.ok(product);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @Valid @RequestBody Product request) {
+        log.info("UPDATE /api/v1/products/{} - Modyfikacjia produktu", id);
         var product = productService.updateProduct(id, request);
         return ResponseEntity.ok(product);
     }
