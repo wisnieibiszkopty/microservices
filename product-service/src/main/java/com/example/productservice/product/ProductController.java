@@ -34,7 +34,7 @@ public class ProductController {
     }
 
     @GetMapping("/category/{category}")
-    public ResponseEntity<List<ProductResponse>> getProductsByCategory(ProductCategory category){
+    public ResponseEntity<List<ProductResponse>> getProductsByCategory(@PathVariable ProductCategory category){
         log.info("GET /api/v1/products/{} - Szukanie po kategorii", category);
         var products = productService.getProductByCategory(category);
         return ResponseEntity.ok(products);

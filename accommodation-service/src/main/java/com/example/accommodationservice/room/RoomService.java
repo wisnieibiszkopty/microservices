@@ -7,4 +7,16 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class RoomService {
     private final RoomRepository roomRepository;
+
+//    public Room create(){
+//
+//    }
+//
+//    public Room update(){
+//
+//    }
+//
+//    public void delete(){
+//
+//    }
 }

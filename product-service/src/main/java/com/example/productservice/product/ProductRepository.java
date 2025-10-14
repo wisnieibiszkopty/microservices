@@ -22,5 +22,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByCategoryAndMaxPrice(
             @Param("category") ProductCategory category,
             @Param("maxPrice") BigDecimal maxPrice);
+
     boolean existsByName(String name);
 }
