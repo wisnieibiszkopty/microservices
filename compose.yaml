@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=productcataloglab'
+      - 'POSTGRES_PASSWORD=productcatalogservice'
+      - 'POSTGRES_USER=productcatalogservice'
+    ports:
+      - "5432:5432"
