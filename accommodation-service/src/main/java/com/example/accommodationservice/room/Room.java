@@ -22,6 +22,9 @@ public class Room {
     @NotNull
     private Integer number;
 
+    @NotNull
+    private Boolean occupied;
+
     @Min(1)
     @NotNull
     private Integer bedsCount;
