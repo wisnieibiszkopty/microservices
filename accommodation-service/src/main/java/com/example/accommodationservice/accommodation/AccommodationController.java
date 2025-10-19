@@ -1,6 +1,7 @@
 package com.example.accommodationservice.accommodation;
 
 import com.example.accommodationservice.accommodation.dtos.AccommodationRequest;
+import com.example.accommodationservice.accommodation.dtos.AccommodationType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,11 @@ public class AccommodationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Accommodation>> getAll(){
-        return ResponseEntity.ok(accommodationService.getAll());
+    public ResponseEntity<List<Accommodation>> getAll(
+            @RequestParam(name = "search", required = false) String phrase,
+            @RequestParam(name = "type", required = false)AccommodationType type
+            ){
+        return ResponseEntity.ok(accommodationService.getAll(phrase, type));
     }
 
     @PostMapping

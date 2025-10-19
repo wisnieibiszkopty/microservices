@@ -1,6 +1,7 @@
 package com.example.accommodationservice.accommodation;
 
 import com.example.accommodationservice.accommodation.dtos.AccommodationRequest;
+import com.example.accommodationservice.accommodation.dtos.AccommodationType;
 import com.example.accommodationservice.accommodation.exceptions.AccommodationExistsException;
 import com.example.accommodationservice.accommodation.exceptions.AccommodationNotFoundException;
 import lombok.AllArgsConstructor;
@@ -19,9 +20,8 @@ public class AccommodationService {
                 .orElseThrow(() -> new AccommodationNotFoundException("Accommodation not found"));
     }
 
-    // TODO add filtering
-    public List<Accommodation> getAll(){
-        return accommodationRepository.findAll();
+    public List<Accommodation> getAll(String phrase, AccommodationType type){
+        return accommodationRepository.findByPhraseAndType(phrase, type);
     }
 
     public Accommodation create(AccommodationRequest accommodation) {
