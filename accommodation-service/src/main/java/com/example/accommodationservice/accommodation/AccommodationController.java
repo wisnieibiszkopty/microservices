@@ -22,11 +22,16 @@ public class AccommodationController {
     }
 
     @GetMapping
+    public ResponseEntity<List<Accommodation>> getAll(){
+        return ResponseEntity.ok(accommodationService.getAll());
+    }
+
+    @GetMapping("/search")
     public ResponseEntity<List<Accommodation>> getAll(
-            @RequestParam(name = "search", required = false) String phrase,
-            @RequestParam(name = "type", required = false)AccommodationType type
+            @RequestParam(name = "search") String phrase,
+            @RequestParam(name = "type")AccommodationType type
             ){
-        return ResponseEntity.ok(accommodationService.getAll(phrase, type));
+        return ResponseEntity.ok(accommodationService.search(phrase, type));
     }
 
     @PostMapping

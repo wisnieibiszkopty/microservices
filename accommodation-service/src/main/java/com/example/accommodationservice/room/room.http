@@ -1,0 +1,53 @@
+@api = http://localhost:8080/api/v1/rooms
+
+POST {{api}}
+Content-Type: application/json
+
+{
+  "number": 321,
+  "occupied": false,
+  "floor": 1,
+  "guestsCount": 3,
+  "bedsCount": 2,
+  "price": 200,
+  "area": 35,
+  "features": ["balkon"],
+  "accommodationId": 1
+}
+
+###
+
+GET {{api}}
+
+###
+
+GET {{api}}?maxPrice=250
+
+###
+
+GET {{api}}/3
+
+###
+
+PATCH {{api}}/3?occupied=true
+
+###
+
+PUT {{api}}/3
+Content-Type: application/json
+
+{
+      "number": 321,
+      "occupied": false,
+      "floor": 1,
+      "guestsCount": 3,
+      "bedsCount": 2,
+      "price": 200,
+      "area": 38,
+      "features": ["balkon"],
+      "accommodationId": 1
+}
+
+###
+
+DELETE {{api}}/5

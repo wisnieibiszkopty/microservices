@@ -29,6 +29,11 @@ public class RoomService {
     public Room create(CreateRoomRequest request){
         var room = createRequestToModel(request);
         var accommodation = accommodationService.getById(room.getAccommodationId());
+
+        if(accommodation == null){
+            throw new AccommodationNotFoundException("Accommodation not found");
+        }
+
         room.setAccommodation(accommodation);
         return roomRepository.save(room);
     }
@@ -46,7 +51,7 @@ public class RoomService {
             throw new RoomNotFoundException("Room with this id does not exist");
         }
 
-        var room = updateRequestToModel(request);
+        var room = updateRequestToModel(id, request);
         return roomRepository.save(room);
     }
 
@@ -66,21 +71,26 @@ public class RoomService {
         room.setFloor(request.floor());
         room.setPrice(request.price());
         room.setGuestsCount(request.guestsCount());
+        room.setBedsCount(request.bedsCount());
         room.setOccupied(request.occupied());
         room.setFeatures(request.features());
+        room.setAccommodationId(request.accommodationId());
 
         return room;
     }
 
-    private Room updateRequestToModel(UpdateRoomRequest request){
+    private Room updateRequestToModel(Long id, UpdateRoomRequest request){
         var room = new Room();
+        room.setId(id);
         room.setNumber(request.number());
         room.setArea(request.area());
         room.setFloor(request.floor());
         room.setPrice(request.price());
         room.setGuestsCount(request.guestsCount());
+        room.setBedsCount(request.bedsCount());
         room.setOccupied(request.occupied());
         room.setFeatures(request.features());
+        room.setAccommodationId(request.accommodationId());
 
         return room;
     }

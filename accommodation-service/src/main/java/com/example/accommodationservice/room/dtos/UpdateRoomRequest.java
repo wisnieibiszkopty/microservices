@@ -8,7 +8,9 @@ public record UpdateRoomRequest(
         Boolean occupied,
         Integer floor,
         Integer guestsCount,
+        Integer bedsCount,
         BigDecimal price,
         Double area,
-        List<String> features
+        List<String> features,
+        Long accommodationId
 ) {}

@@ -8,6 +8,7 @@ public record CreateRoomRequest(
         Boolean occupied,
         Integer floor,
         Integer guestsCount,
+        Integer bedsCount,
         BigDecimal price,
         Double area,
         List<String> features,

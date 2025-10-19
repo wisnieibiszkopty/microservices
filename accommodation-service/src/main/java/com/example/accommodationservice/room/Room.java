@@ -1,6 +1,7 @@
 package com.example.accommodationservice.room;
 
 import com.example.accommodationservice.accommodation.Accommodation;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
@@ -51,5 +52,6 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(name="accommodation_id")
+    @JsonBackReference
     private Accommodation accommodation;
 }

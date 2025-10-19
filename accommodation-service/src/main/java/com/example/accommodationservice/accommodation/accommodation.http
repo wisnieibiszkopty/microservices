@@ -1,0 +1,44 @@
+@api = http://localhost:8080/api/v1/accommodations
+
+GET {{api}}
+
+###
+
+GET {{api}}?type=HOTEL
+
+###
+
+GET {{api}}/1
+
+###
+
+POST {{api}}
+Content-Type: application/json
+
+{
+  "name": "Hotel Victoria",
+  "description": "Nasza oferta stanowi doskonałą propozycję zarówno dla gości indywidualnych, biznesowych, jaki i grup konferencyjnych oraz turystycznych.",
+  "city": "Lublin",
+  "address": "Gabriela Narutowicza 23",
+  "type": "HOSTEL",
+  "features": ["Spa", "Plac zabaw", "Restauracja"]
+}
+
+###
+
+PUT {{api}}/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Hotel Vdfzgdfictoryhjtia 79",
+  "description": "Nasza oferta stanowi doskonałą propozycję zarówno dla gości indywidualnych, biznesowych, jaki i grup konferencyjnych oraz turystycznych.",
+  "city": "Lubartów",
+  "address": "Gabriela Narutowicza 23",
+  "type": "HOSTEL",
+  "features": ["Spa", "Plac zabaw", "Restauracja"]
+}
+
+###
+
+DELETE {{api}}/2

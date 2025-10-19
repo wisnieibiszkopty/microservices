@@ -11,6 +11,8 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
 
     boolean existsByName(String name);
 
+    List<Accommodation> findAllByType(AccommodationType type);
+
     @Query("""
     SELECT a FROM Accommodation a
     WHERE

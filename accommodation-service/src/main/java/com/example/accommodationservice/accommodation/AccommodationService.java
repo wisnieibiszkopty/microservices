@@ -20,13 +20,17 @@ public class AccommodationService {
                 .orElseThrow(() -> new AccommodationNotFoundException("Accommodation not found"));
     }
 
-    public List<Accommodation> getAll(String phrase, AccommodationType type){
+    public List<Accommodation> getAll(){
+        return accommodationRepository.findAll();
+    }
+
+    public List<Accommodation> search(String phrase, AccommodationType type){
         return accommodationRepository.findByPhraseAndType(phrase, type);
     }
 
     public Accommodation create(AccommodationRequest accommodation) {
         var exists = accommodationRepository.existsByName(accommodation.name());
-        if (!exists) {
+        if (exists) {
             throw new AccommodationExistsException("Accommodation with this name already exists");
         }
 
