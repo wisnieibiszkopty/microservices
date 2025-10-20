@@ -1,4 +1,4 @@
-package com.example.productservice;
+package com.example.productservice.config;
 
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpStatus;

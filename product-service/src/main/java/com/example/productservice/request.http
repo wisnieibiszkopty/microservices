@@ -5,5 +5,3 @@ GET {{api}}
 ###
 
 GET {{api}}/2
-
-// TODO finish

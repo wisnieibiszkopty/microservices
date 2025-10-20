@@ -3,8 +3,8 @@ services:
     image: 'postgres:latest'
     environment:
       - 'POSTGRES_DB=productcataloglab'
-      - 'POSTGRES_PASSWORD=productcatalogservice'
-      - 'POSTGRES_USER=productcatalogservice'
+      - 'POSTGRES_PASSWORD=admin'
+      - 'POSTGRES_USER=admin'
     ports:
       - "5432:5432"
   accommodation_postgres:

@@ -40,31 +40,50 @@ public class ProductService {
 
     public ProductResponse getProductById(Long id) {
         var product = productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Produkt o ID " + id + " nie został znaleziony"));
+                .orElseThrow(() ->
+                        new ProductNotFoundException("Produkt o ID " + id + " nie został znaleziony"));
         return mapToResponse(product);
     }
 
     public List<ProductResponse> searchProducts(String name) {
-        return productRepository.findByNameContainingIgnoreCase(name).stream().map(this::mapToResponse).collect(Collectors.toList());
+        return productRepository
+                .findByNameContainingIgnoreCase(name)
+                .stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
     }
 
     public List<ProductResponse> getProductsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
-        return productRepository.findByPriceBetween(minPrice, maxPrice).stream().map(this::mapToResponse).collect(Collectors.toList());
+        return productRepository
+                .findByPriceBetween(minPrice, maxPrice)
+                .stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
     }
 
     public List<ProductResponse> getProductByCategory(ProductCategory category){
         var products = productRepository.findByCategory(category);
-        return products.stream().map(this::mapToResponse).collect(Collectors.toList());
+        return products
+                .stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
     }
 
     public ProductResponse updateProduct(Long id, Product request) {
-        var product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Produkt o ID " + id + " nie został znaleziony"));
+        var product = productRepository
+                .findById(id)
+                .orElseThrow(() ->
+                        new ProductNotFoundException("Produkt o ID " + id + " nie został znaleziony"));
         productRepository.save(product);
         return this.mapToResponse(product);
     }
 
     public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+        var product = productRepository
+                .findById(id)
+                .orElseThrow(() ->
+                        new ProductNotFoundException("Produkt o ID " + id + " nie został znaleziony"));
+        productRepository.delete(product);
     }
 
     private ProductResponse mapToResponse(Product product) {
