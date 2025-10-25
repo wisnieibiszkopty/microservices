@@ -1,7 +1,5 @@
 package com.example.accommodationservice.accommodation;
-
 import com.example.accommodationservice.accommodation.dtos.AccommodationRequest;
-import com.example.accommodationservice.accommodation.dtos.AccommodationType;
 import com.example.accommodationservice.accommodation.exceptions.AccommodationExistsException;
 import com.example.accommodationservice.accommodation.exceptions.AccommodationNotFoundException;
 import lombok.AllArgsConstructor;
@@ -24,8 +22,12 @@ public class AccommodationService {
         return accommodationRepository.findAll();
     }
 
-    public List<Accommodation> search(String phrase, AccommodationType type){
-        return accommodationRepository.findByPhraseAndType(phrase, type);
+    public List<Accommodation> searchByName(String name){
+        return accommodationRepository.findByNameContainingIgnoreCase(name);
+    }
+
+    public List<Accommodation> getByLocation(String location){
+        return accommodationRepository.findByCityContainingIgnoreCase(location);
     }
 
     public Accommodation create(AccommodationRequest accommodation) {

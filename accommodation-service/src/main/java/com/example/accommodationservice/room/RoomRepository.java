@@ -9,19 +9,21 @@ import java.util.List;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
+    @Query("SELECT r FROM Room r WHERE r.price <= :maxPrice AND r.price > :minPrice")
+    List<Room> findByPriceRange(
+            @Param("minPrice") BigDecimal minPrice,
+            @Param("maxPrice") BigDecimal maxPrice);
+
     @Query("""
         SELECT r FROM Room r
-        WHERE
-            (:minPrice IS NULL OR r.price >= :minPrice)
-            AND (:maxPrice IS NULL OR r.price <= :maxPrice)
-            AND (:occupied IS NULL OR r.occupied = :occupied)
-            AND (:minGuests IS NULL OR r.guestsCount >= :minGuests)
-        """)
-    List<Room> getAll(
-            @Param("minPrice") BigDecimal minPrice,
-            @Param("maxPrice") BigDecimal maxPrice,
-            @Param("occupied") Boolean occupied,
-            @Param("minGuests") Integer minGuests
+        WHERE r.occupied = false
+          AND r.guestsCount >= :minGuestsCount
+          AND r.accommodation.id = :accommodationId
+        ORDER BY r.guestsCount ASC
+    """)
+    List<Room> findAvailableRooms(
+            @Param("minGuestsCount") Integer minGuestsCount,
+            @Param("accommodationId") Long accommodationId
     );
 
 }

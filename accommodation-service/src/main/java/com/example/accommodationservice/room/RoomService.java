@@ -22,8 +22,16 @@ public class RoomService {
                 .orElseThrow(() -> new RoomNotFoundException("Room not found"));
     }
 
-    public List<Room> getAll(BigDecimal minPrice, BigDecimal maxPrice, Boolean occupied, Integer guestsCount){
-        return roomRepository.getAll(minPrice, maxPrice, occupied, guestsCount);
+    public List<Room> getAll(){
+        return roomRepository.findAll();
+    }
+
+    public List<Room> getAllByPriceRange(BigDecimal minPrice, BigDecimal maxPrice){
+        return roomRepository.findByPriceRange(minPrice, maxPrice);
+    }
+
+    public List<Room> getAllByGuestCountAndAccommodationId(Long accommodationId, Integer guestsCount){
+        return roomRepository.findAvailableRooms(guestsCount, accommodationId);
     }
 
     public Room create(CreateRoomRequest request){

@@ -23,13 +23,24 @@ public class RoomController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Room>> getAll(
-            @RequestParam(name = "minPrice", required = false) BigDecimal minPrice,
-            @RequestParam(name = "maxPrice", required = false) BigDecimal maxPrice,
-            @RequestParam(name = "occupied", required = false) Boolean occupied,
-            @RequestParam(name = "guestsCount", required = false) Integer guestsCount
-            ){
-        return ResponseEntity.ok(roomService.getAll(minPrice, maxPrice, occupied, guestsCount));
+    public ResponseEntity<List<Room>> getAll(){
+        return ResponseEntity.ok(roomService.getAll());
+    }
+
+    @GetMapping("/price")
+    public ResponseEntity<List<Room>> getAllByPriceRange(
+            @RequestParam(name = "minPrice") BigDecimal minPrice,
+            @RequestParam(name = "maxPrice") BigDecimal maxPrice
+    ){
+        return ResponseEntity.ok(roomService.getAllByPriceRange(minPrice, maxPrice));
+    }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<Room>> getAvailableRooms(
+            @RequestParam(name = "accommodationId") Long accommodationId,
+            @RequestParam(name = "minGuestsCount") Integer minGuestsCount
+    ){
+        return ResponseEntity.ok(roomService.getAllByGuestCountAndAccommodationId(accommodationId, minGuestsCount));
     }
 
     @PostMapping
