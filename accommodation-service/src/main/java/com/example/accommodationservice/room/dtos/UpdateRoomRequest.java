@@ -1,7 +1,6 @@
 package com.example.accommodationservice.room.dtos;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public record UpdateRoomRequest(
         Integer number,
@@ -11,6 +10,5 @@ public record UpdateRoomRequest(
         Integer bedsCount,
         BigDecimal price,
         Double area,
-        List<String> features,
         Long accommodationId
 ) {}

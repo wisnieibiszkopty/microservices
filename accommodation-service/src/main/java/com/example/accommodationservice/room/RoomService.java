@@ -81,7 +81,6 @@ public class RoomService {
         room.setGuestsCount(request.guestsCount());
         room.setBedsCount(request.bedsCount());
         room.setOccupied(request.occupied());
-        room.setFeatures(request.features());
         room.setAccommodationId(request.accommodationId());
 
         return room;
@@ -97,7 +96,6 @@ public class RoomService {
         room.setGuestsCount(request.guestsCount());
         room.setBedsCount(request.bedsCount());
         room.setOccupied(request.occupied());
-        room.setFeatures(request.features());
         room.setAccommodationId(request.accommodationId());
 
         return room;

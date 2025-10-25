@@ -7,6 +7,5 @@ public record AccommodationRequest(
         String description,
         String city,
         String address,
-        AccommodationType type,
-        List<String> features
+        AccommodationType type
 ) {}

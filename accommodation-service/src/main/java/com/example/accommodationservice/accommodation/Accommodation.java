@@ -8,7 +8,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.springframework.stereotype.Indexed;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.List;
 @Entity
 @Table(name = "accommodations")
 @Data
-@Indexed
 public class Accommodation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,10 +34,6 @@ public class Accommodation {
     @NotNull(message = "Type cannot be null")
     @Enumerated(EnumType.STRING)
     private AccommodationType type;
-
-    @Column(name = "accommodation_features")
-    @ElementCollection
-    private List<String> features;
 
     @OneToMany(mappedBy = "accommodation", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -62,7 +56,6 @@ public class Accommodation {
         accommodation.setAddress(request.address());
         accommodation.setCity((request.city()));
         accommodation.setType(request.type());
-        accommodation.setFeatures(request.features());
         return accommodation;
     }
 

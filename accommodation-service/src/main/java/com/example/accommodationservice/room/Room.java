@@ -43,10 +43,6 @@ public class Room {
 
     private Double area;
 
-    @Column(name = "room_features")
-    @ElementCollection
-    private List<String> features;
-
     @Column(name = "accommodation_id", insertable = false, updatable = false)
     private Long accommodationId;
 
