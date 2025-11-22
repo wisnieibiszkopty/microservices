@@ -1,0 +1,102 @@
+# postgres-service
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+spec:
+  type: ClusterIP
+  selector:
+    app: db
+  ports:
+    - port: 5432
+      targetPort: 5432
+      protocol: TCP
+---
+# postgres-statefulset
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: db
+  labels:
+    app: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      name: db
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: db
+          image: postgres:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+              name: db
+          env:
+            - name: POSTGRES_USER
+              value: admin
+            - name: POSTGRES_PASSWORD
+              value: admin
+            - name: POSTGRES_DB
+              value: accommodationdb
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql
+      volumes:
+        - name: pgdata
+          persistentVolumeClaim:
+            claimName: accommodation-pv-claim
+---
+# app-service
+apiVersion: v1
+kind: Service
+metadata:
+  name: accommodation-app
+spec:
+  type: NodePort
+  selector:
+    app: accommodation-app
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30080
+      protocol: TCP
+---
+# app-deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accommodation-app
+  labels:
+    app: accommodation-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: accommodation-app
+  template:
+    metadata:
+      name: accommodation-app
+      labels:
+        app: accommodation-app
+    spec:
+      containers:
+        - name: accommodation-app
+          image: accommodation-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://db:5432/accommodationdb
+            - name: SPRING_DATASOURCE_USERNAME
+              value: admin
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: admin
+      restartPolicy: Always
