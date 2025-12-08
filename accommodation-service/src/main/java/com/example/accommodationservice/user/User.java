@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
@@ -30,7 +31,7 @@ public class User implements UserDetails {
     @NotBlank(message = "Password is required")
     private String password;
 
-    private List<UserRoles> roles;
+    private UserRole role;
 
     private Boolean enabled;
 
@@ -43,52 +44,52 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override
     public String getPassword() {
-        return "";
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return email;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return this.accountNotExpired;
+        return accountNotExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.accountNotLocked;
+        return accountNotLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return this.credentialsNonExpired;
+        return credentialsNonExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @PrePersist
     protected void onCreate(){
-        this.setEnabled(true);
-        this.setAccountNotExpired(true);
-        this.setAccountNotLocked(true);
-        this.setCredentialsNonExpired(true);
+        setEnabled(true);
+        setAccountNotExpired(true);
+        setAccountNotLocked(true);
+        setCredentialsNonExpired(true);
 
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate(){
-
+        updatedAt = LocalDateTime.now();
     }
 }

@@ -1,6 +1,6 @@
 package com.example.accommodationservice.user;
 
-public enum UserRoles {
+public enum UserRole {
     USER,
     ADMIN,
     OWNER,
