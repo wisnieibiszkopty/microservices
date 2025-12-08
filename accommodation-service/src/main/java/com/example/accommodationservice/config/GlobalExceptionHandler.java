@@ -1,4 +1,4 @@
-package com.example.accommodationservice;
+package com.example.accommodationservice.config;
 
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpStatus;
