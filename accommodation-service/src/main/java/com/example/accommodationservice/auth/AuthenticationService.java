@@ -103,4 +103,32 @@ public class AuthenticationService {
                 existingUser.getRole()
         );
     }
+
+    public AuthenticationResponse refreshToken(String authHeader){
+        final String jwt = authHeader.substring(7);
+        final String userEmail = jwtService.extractUsername(jwt);
+
+        var user = userRepository.findByEmail(userEmail);
+
+        if(user.isEmpty()){
+            throw new RuntimeException("Invalid user");
+        }
+
+        // TODO put generating token in one method
+        var existingUser = user.get();
+        var claims = setClaims(existingUser);
+
+        var token = jwtService.generateToken(existingUser, claims);
+        var refreshToken = jwtService.generateRefreshToken(existingUser);
+
+        return new AuthenticationResponse(
+                token,
+                refreshToken,
+                "Bearer",
+                // TODO replace with proper value
+                LocalDateTime.now(),
+                existingUser.getEmail(),
+                existingUser.getRole()
+        );
+    }
 }

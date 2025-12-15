@@ -1,9 +1,11 @@
 package com.example.accommodationservice.accommodation;
 
 import com.example.accommodationservice.accommodation.dtos.AccommodationRequest;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,20 +14,24 @@ import java.util.List;
 @RequestMapping("/api/v1/accommodations")
 @RequiredArgsConstructor
 @Slf4j
+@SecurityRequirement(name = "Bearer Authentication")
 public class AccommodationController {
     private final AccommodationService accommodationService;
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('OWNER') or hasRole('WORKER') or hasRole('ADMIN')")
     public ResponseEntity<Accommodation> get(@PathVariable Long id){
         return ResponseEntity.ok(accommodationService.getById(id));
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('USER') or hasRole('OWNER') or hasRole('WORKER') or hasRole('ADMIN')")
     public ResponseEntity<List<Accommodation>> getAll(){
         return ResponseEntity.ok(accommodationService.getAll());
     }
 
     @GetMapping("/search")
+    @PreAuthorize("hasRole('USER') or hasRole('OWNER') or hasRole('WORKER') or hasRole('ADMIN')")
     public ResponseEntity<List<Accommodation>> getAllByName(
             @RequestParam(name = "name") String name
             ){
@@ -33,21 +39,25 @@ public class AccommodationController {
     }
 
     @GetMapping("/location/{city}")
+    @PreAuthorize("hasRole('USER') or hasRole('OWNER') or hasRole('WORKER') or hasRole('ADMIN')")
     public ResponseEntity<List<Accommodation>> getAllByLocation(@PathVariable String city){
         return ResponseEntity.ok(accommodationService.getByLocation(city));
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('OWNER') or hasRole('ADMIN')")
     public ResponseEntity<Accommodation> create(@RequestBody AccommodationRequest accommodation){
         return ResponseEntity.ok(accommodationService.create(accommodation));
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('OWNER') or hasRole('ADMIN')")
     public ResponseEntity<Accommodation> update(@PathVariable Long id, @RequestBody Accommodation accommodation){
         return ResponseEntity.ok(accommodationService.update(id, accommodation));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('OWNER') or hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         accommodationService.delete(id);
         return ResponseEntity.noContent().build();
