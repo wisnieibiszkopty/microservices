@@ -22,7 +22,7 @@ import java.util.Map;
 public class AuthenticationService {
 
     // TODO remove
-    @Value("{jwt.expiration}")
+    @Value("${jwt.expiration}")
     private Long expiration;
 
 
