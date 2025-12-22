@@ -1,0 +1,35 @@
+@api = http://localhost:8080/api/v1/auth
+
+POST {{api}}/register
+Content-Type: application/json
+
+{
+  "firstname": "Kamil",
+  "lastname": "Wodowski",
+  "email": "KamilWodowski@gmail.com",
+  "password": "KamilWodowski",
+  "role": "OWNER"
+}
+
+###
+
+POST {{api}}/register
+Content-Type: application/json
+
+{
+  "firstname": "John",
+  "lastname": "DOe",
+  "email": "johndoe@gmail.com",
+  "password": "johndoe",
+  "role": "WORKER"
+}
+
+###
+
+POST {{api}}/login
+Content-Type: application/json
+
+{
+  "email": "KamilWodowski@gmail.com",
+  "password": "KamilWodowski"
+}
