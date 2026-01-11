@@ -1,6 +1,9 @@
 @api = http://localhost:8080/api/v1/accommodations
+@jwt =eyJhbGciOiJIUzI1NiJ9.eyJmaXJzdG5hbWUiOiJLYW1pbCIsInJvbGUiOiJPV05FUiIsImxhc3RuYW1lIjoiV29kb3dza2kiLCJzdWIiOiJLYW1pbFdvZG93c2tpQGdtYWlsLmNvbSIsImlhdCI6MTc2ODEyNTAyNiwiZXhwIjoxNzY4MTI4NjI2fQ.rctfX1GlXVt7Je8hC7y2Bq5R3onuiWzfF3WIS_7aeiM
 
 GET {{api}}
+Content-Type: application/json
+Authorization: Bearer {{jwt}}
 
 ###
 

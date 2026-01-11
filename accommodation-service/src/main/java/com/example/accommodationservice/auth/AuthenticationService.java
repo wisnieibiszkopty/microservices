@@ -21,11 +21,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    // TODO remove
-    @Value("${jwt.expiration}")
-    private Long expiration;
-
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -37,6 +32,21 @@ public class AuthenticationService {
         claims.put("firstname", user.getFirstname());
         claims.put("lastname", user.getLastname());
         return claims;
+    }
+
+    private AuthenticationResponse buildAuthenticationResponse(User existingUser){
+        var claims = setClaims(existingUser);
+
+        var token = jwtService.generateToken(existingUser, claims);
+        var refreshToken = jwtService.generateRefreshToken(existingUser);
+
+        return new AuthenticationResponse(
+                token,
+                refreshToken,
+                "Bearer",
+                existingUser.getEmail(),
+                existingUser.getRole()
+        );
     }
 
     public AuthenticationResponse register(RegisterRequest request) throws Exception {
@@ -57,20 +67,7 @@ public class AuthenticationService {
 
         userRepository.save(user);
 
-        var claims = setClaims(user);
-
-        var token = jwtService.generateToken(user, claims);
-        var refreshToken = jwtService.generateRefreshToken(user);
-
-        return new AuthenticationResponse(
-            token,
-            refreshToken,
-            "Bearer",
-            // TODO replace with proper value
-            LocalDateTime.now(),
-            user.getEmail(),
-            user.getRole()
-        );
+        return buildAuthenticationResponse(user);
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request){
@@ -87,21 +84,7 @@ public class AuthenticationService {
             throw new RuntimeException("User doesn't exist");
         }
 
-        var existingUser = user.get();
-        var claims = setClaims(existingUser);
-
-        var token = jwtService.generateToken(existingUser, claims);
-        var refreshToken = jwtService.generateRefreshToken(existingUser);
-
-        return new AuthenticationResponse(
-                token,
-                refreshToken,
-                "Bearer",
-                // TODO replace with proper value
-                LocalDateTime.now(),
-                existingUser.getEmail(),
-                existingUser.getRole()
-        );
+        return buildAuthenticationResponse(user.get());
     }
 
     public AuthenticationResponse refreshToken(String authHeader){
@@ -114,21 +97,6 @@ public class AuthenticationService {
             throw new RuntimeException("Invalid user");
         }
 
-        // TODO put generating token in one method
-        var existingUser = user.get();
-        var claims = setClaims(existingUser);
-
-        var token = jwtService.generateToken(existingUser, claims);
-        var refreshToken = jwtService.generateRefreshToken(existingUser);
-
-        return new AuthenticationResponse(
-                token,
-                refreshToken,
-                "Bearer",
-                // TODO replace with proper value
-                LocalDateTime.now(),
-                existingUser.getEmail(),
-                existingUser.getRole()
-        );
+        return buildAuthenticationResponse(user.get());
     }
 }

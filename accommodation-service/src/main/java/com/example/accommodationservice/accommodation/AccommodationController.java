@@ -19,19 +19,19 @@ public class AccommodationController {
     private final AccommodationService accommodationService;
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('OWNER') or hasRole('WORKER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'OWNER', 'WORKER', 'ADMIN')")
     public ResponseEntity<Accommodation> get(@PathVariable Long id){
         return ResponseEntity.ok(accommodationService.getById(id));
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('USER') or hasRole('OWNER') or hasRole('WORKER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'OWNER', 'WORKER', 'ADMIN')")
     public ResponseEntity<List<Accommodation>> getAll(){
         return ResponseEntity.ok(accommodationService.getAll());
     }
 
     @GetMapping("/search")
-    @PreAuthorize("hasRole('USER') or hasRole('OWNER') or hasRole('WORKER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'OWNER', 'WORKER', 'ADMIN')")
     public ResponseEntity<List<Accommodation>> getAllByName(
             @RequestParam(name = "name") String name
             ){
@@ -39,25 +39,25 @@ public class AccommodationController {
     }
 
     @GetMapping("/location/{city}")
-    @PreAuthorize("hasRole('USER') or hasRole('OWNER') or hasRole('WORKER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'OWNER', 'WORKER', 'ADMIN')")
     public ResponseEntity<List<Accommodation>> getAllByLocation(@PathVariable String city){
         return ResponseEntity.ok(accommodationService.getByLocation(city));
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('OWNER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMIN')")
     public ResponseEntity<Accommodation> create(@RequestBody AccommodationRequest accommodation){
         return ResponseEntity.ok(accommodationService.create(accommodation));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('OWNER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMIN')")
     public ResponseEntity<Accommodation> update(@PathVariable Long id, @RequestBody Accommodation accommodation){
         return ResponseEntity.ok(accommodationService.update(id, accommodation));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('OWNER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         accommodationService.delete(id);
         return ResponseEntity.noContent().build();

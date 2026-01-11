@@ -8,7 +8,6 @@ public record AuthenticationResponse(
    String token,
    String refreshToken,
    String tokenType,
-   LocalDateTime expiresAt,
    String userEmail,
    UserRole userRole
 ) {}
