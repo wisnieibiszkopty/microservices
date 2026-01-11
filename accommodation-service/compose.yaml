@@ -1,4 +1,17 @@
 services:
+  keycloak:
+    container_name: 'keycloak'
+    image: quay.io/keycloak/keycloak:latest
+    ports:
+      - "9090:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: 123
+      KEYCLOAK_IMPORT: /opt/keycloak/data/import/realm-config.json
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+      - ./realm-config.json:/opt/keycloak/data/import/realm-config.json
+    command: ["start-dev", "--import-realm"]
   accommodation_app:
     build: .
     container_name: 'accommodation_app'
@@ -25,6 +38,7 @@ services:
       - internal
 volumes:
   pgdata:
+  keycloak_data:
 
 networks:
   internal:

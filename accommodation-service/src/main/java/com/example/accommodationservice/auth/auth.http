@@ -33,3 +33,15 @@ Content-Type: application/json
   "email": "KamilWodowski@gmail.com",
   "password": "KamilWodowski"
 }
+
+
+###
+# keycloak
+
+POST http://localhost:9090/realms/accommodation/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password
+&client_id=accommodation
+&username=admin@admin
+&password=admin
