@@ -1,0 +1,15 @@
+package com.example.gateway;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
+
+@RestController
+public class FallbackGateway {
+
+    @RequestMapping("/fallback")
+    public Mono<String> fallback(){
+        return Mono.just("System is unavailable. Please try again later.");
+    }
+
+}
