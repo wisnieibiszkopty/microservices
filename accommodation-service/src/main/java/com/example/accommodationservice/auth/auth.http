@@ -13,6 +13,16 @@ Content-Type: application/json
 
 ###
 
+POST {{api}}/login
+Content-Type: application/json
+
+{
+  "email": "KamilWodowski@gmail.com",
+  "password": "KamilWodowski"
+}
+
+###
+
 POST {{api}}/register
 Content-Type: application/json
 
@@ -30,6 +40,6 @@ POST {{api}}/login
 Content-Type: application/json
 
 {
-  "email": "KamilWodowski@gmail.com",
-  "password": "KamilWodowski"
+  "email": "johndoe@gmail.com",
+  "password": "johndoe"
 }
