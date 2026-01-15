@@ -1,15 +1,57 @@
 package com.example.gateway;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
+import org.springframework.test.web.reactive.server.WebTestClient;
 
-@SpringBootTest
-@AutoConfigureWireMock
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureWireMock(port = 0)
 class GatewayApplicationTests {
+
+    @Autowired
+    private WebTestClient webClient;
 
 	@Test
 	void contextLoads() {
 	}
 
+    @Test
+    public void shouldAddHeaderWhenRoutingToGet(){
+        stubFor(get(urlEqualTo("/get"))
+                .willReturn(aResponse()
+                        .withBody("{\"headers\":{\"Hello\":\"World\"}}")
+                        .withHeader("Content-Type", "application/json")));
+
+        webClient
+                .get().uri("/get")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.headers.Hello").isEqualTo("World");
+    }
+
+    @Test
+    public void shouldReturnFallbackWhenCircuitBreakerOpens(){
+        stubFor(get(urlEqualTo("/delay/3"))
+                .willReturn(aResponse()
+                        .withBody("System is unavailable. Please try again later.")
+                        .withFixedDelay(3000)));
+
+        webClient
+                .get().uri("/delay/3")
+                .header("Host", "www.circuitbreaker.com")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .consumeWith(
+                  response -> assertThat(response.getResponseBody())
+                          .isEqualTo("System is unavailable. Please try again later.".getBytes()
+                          )
+                );
+    }
 }
