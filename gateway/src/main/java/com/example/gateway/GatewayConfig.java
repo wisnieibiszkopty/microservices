@@ -4,7 +4,6 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 
 @Configuration
 public class GatewayConfig {
@@ -14,18 +13,16 @@ public class GatewayConfig {
         String httpUri = uriConfiguration.getHttpbin();
 
         return builder.routes()
-                .route("httpbin_rule", r -> r
+                .route(p -> p
                         .path("/get")
-                        .filters(f -> f
-                                .addRequestHeader("Hello", "World")
-                        )
+                        .filters(f -> f.addRequestHeader("Hello", "World"))
                         .uri(httpUri)
                 )
-                .route("circuitbreaker_rule", r -> r
+                .route(p -> p
                         .host("*.circuitbreaker.com")
                         .filters(f -> f.circuitBreaker(
                                 c -> c
-                                        .setName("")
+                                        .setName("circuitBreaker")
                                         .setFallbackUri("forward:/fallback")
                                 )
                         )
