@@ -28,6 +28,23 @@ public class GatewayConfig {
                         )
                         .uri(httpUri)
                 )
+                // trzeba zrobić serwis do autoryzacji i serwis do cruda
+                .route(p -> p
+                        .path("/api/v1/**")
+                        .uri("")
+                )
+                .route(p -> p
+                        .path(" /v3/api-docs/**")
+                        .uri("")
+                )
+                .route(p -> p
+                        .path("/swagger-ui/**")
+                        .uri("")
+                )
+                .route(p -> p
+                        .path(" /swagger-ui.html")
+                        .uri("")
+                )
                 .build();
     }
 

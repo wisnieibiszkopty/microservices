@@ -24,6 +24,10 @@ class OpenApiConfig {
             @Value("${application-version}") String appVersion
     ){
         return new OpenAPI()
+                .addServersItem(
+                        new io.swagger.v3.oas.models.servers.Server()
+                                .url("http://localhost:8080")
+                )
                 .info(new Info()
                         .title("Product catalog service")
                         .version(appVersion)
